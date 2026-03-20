@@ -84,7 +84,7 @@ void	*philosopher_routine(void *arg)
 
 	philo = (t_philo *)arg;
 	while (!is_ready(philo))
-		;
+		usleep(100);
 	if (philo->data->num_philos == 1)
 	{
 		print_status(philo, "has taken a fork");

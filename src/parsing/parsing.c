@@ -6,7 +6,7 @@
 /*   By: mpiasecz <mpiasecz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 12:25:58 by mpiasecz          #+#    #+#             */
-/*   Updated: 2025/11/28 13:10:20 by mpiasecz         ###   ########.fr       */
+/*   Updated: 2026/03/20 17:47:15 by mpiasecz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,11 @@ int	parser(int ac, char **av, t_table *table)
 	table->time_to_eat = d[2];
 	table->time_to_sleep = d[3];
 	if (ac == 6)
+	{
+		if (d[4] == 0)
+			return (free(d), -1);
 		table->num_must_eat = d[4];
+	}
 	else
 		table->num_must_eat = -1;
 	free(d);
