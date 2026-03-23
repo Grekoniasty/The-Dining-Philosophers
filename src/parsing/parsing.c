@@ -6,7 +6,7 @@
 /*   By: mpiasecz <mpiasecz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 12:25:58 by mpiasecz          #+#    #+#             */
-/*   Updated: 2026/03/20 17:47:15 by mpiasecz         ###   ########.fr       */
+/*   Updated: 2025/11/28 13:10:20 by mpiasecz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	parser(int ac, char **av, t_table *table)
 	if (table->num_philos == 0 || table->num_philos > 250)
 	{
 		free(d);
-		write(2, "Incorrect amount of philosophers\n", 34);
+		write(2, "Incorrect amount of philosophers\n", 33);
 		return (-1);
 	}
 	table->time_to_die = d[1];
@@ -54,7 +54,10 @@ int	parser(int ac, char **av, t_table *table)
 	if (ac == 6)
 	{
 		if (d[4] == 0)
-			return (free(d), -1);
+		{
+			free(d);
+			return (-1);
+		}
 		table->num_must_eat = d[4];
 	}
 	else

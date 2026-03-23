@@ -67,7 +67,7 @@ int	main(int ac, char **av)
 
 	if (ac < 5 || ac > 6)
 	{
-		write(2, "Invalid amount of arguments\n", 29);
+		write(2, "Invalid amount of arguments\n", 28);
 		return (1);
 	}
 	table = malloc(sizeof(t_table));

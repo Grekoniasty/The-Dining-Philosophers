@@ -37,6 +37,9 @@ static void	eat(t_philo *philo)
 	if (!philo->data->someone_died)
 	{
 		t = get_time() - philo->data->start_time;
+		if (t <= philo->data->last_printed_timestamp)
+			t = philo->data->last_printed_timestamp + 1;
+		philo->data->last_printed_timestamp = t;
 		printf("%ld %d has taken a fork\n", t, philo->id);
 		printf("%ld %d has taken a fork\n", t, philo->id);
 		printf("%ld %d is eating\n", t, philo->id);

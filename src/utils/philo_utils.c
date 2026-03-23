@@ -6,7 +6,7 @@
 /*   By: mpiasecz <mpiasecz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 00:00:00 by mpiasecz          #+#    #+#             */
-/*   Updated: 2026/03/10 00:00:00 by mpiasecz         ###   ########.fr       */
+/*   Updated: 2026/03/23 20:24:47 by mpiasecz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,12 @@ void	stagger_philo(t_philo *philo)
 		usleep(500);
 		print_status(philo, "is thinking");
 		if (is_last_odd)
-			ft_usleep(philo->data->time_to_eat * 2);
+		{
+			if (philo->data->time_to_eat * 2 > philo->data->time_to_die / 2)
+				ft_usleep(philo->data->time_to_die / 2);
+			else
+				ft_usleep(philo->data->time_to_eat * 2);
+		}
 		else
 			ft_usleep(philo->data->time_to_eat);
 	}

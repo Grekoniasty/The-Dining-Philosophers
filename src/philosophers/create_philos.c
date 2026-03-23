@@ -52,6 +52,7 @@ int	create_threads(t_table *table, t_philo *philos)
 	int	i;
 
 	table->ready = 0;
+	table->last_printed_timestamp = -1;
 	i = 0;
 	while (i < table->num_philos)
 	{

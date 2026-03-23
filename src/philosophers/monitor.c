@@ -6,7 +6,7 @@
 /*   By: mpiasecz <mpiasecz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 12:28:02 by mpiasecz          #+#    #+#             */
-/*   Updated: 2026/03/20 17:46:38 by mpiasecz         ###   ########.fr       */
+/*   Updated: 2026/02/02 12:19:23 by mpiasecz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,16 @@ int	check_death(t_philo *philo)
 
 void	print_status(t_philo *philo, char *status)
 {
+	long	current_ts;
+
 	pthread_mutex_lock(&philo->data->print_lock);
 	pthread_mutex_lock(&philo->data->death_lock);
+	current_ts = get_time() - philo->data->start_time;
+	if (current_ts <= philo->data->last_printed_timestamp)
+		current_ts = philo->data->last_printed_timestamp + 1;
+	philo->data->last_printed_timestamp = current_ts;
 	if (!philo->data->someone_died)
-	{
-		printf("%ld %d %s\n", get_time() - philo->data->start_time, philo->id,
-			status);
-	}
+		printf("%ld %d %s\n", current_ts, philo->id, status);
 	pthread_mutex_unlock(&philo->data->death_lock);
 	pthread_mutex_unlock(&philo->data->print_lock);
 }
@@ -38,20 +41,25 @@ void	print_status(t_philo *philo, char *status)
 static int	check_one_philo(t_table *table, int i)
 {
 	long	time_since_meal;
+	long	death_ts;
 
+	pthread_mutex_lock(&table->print_lock);
 	pthread_mutex_lock(&table->death_lock);
 	time_since_meal = get_time() - table->philos[i].last_meal_time;
 	if (time_since_meal >= table->time_to_die)
 	{
 		table->someone_died = 1;
+		death_ts = get_time() - table->start_time;
+		if (death_ts <= table->last_printed_timestamp)
+			death_ts = table->last_printed_timestamp + 1;
+		table->last_printed_timestamp = death_ts;
+		printf("%ld %d died\n", death_ts, table->philos[i].id);
 		pthread_mutex_unlock(&table->death_lock);
-		pthread_mutex_lock(&table->print_lock);
-		printf("%ld %d died\n", get_time() - table->start_time,
-			table->philos[i].id);
 		pthread_mutex_unlock(&table->print_lock);
 		return (1);
 	}
 	pthread_mutex_unlock(&table->death_lock);
+	pthread_mutex_unlock(&table->print_lock);
 	return (0);
 }
 
