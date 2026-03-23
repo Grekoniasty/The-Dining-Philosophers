@@ -6,7 +6,7 @@
 /*   By: mpiasecz <mpiasecz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 11:33:31 by mpiasecz          #+#    #+#             */
-/*   Updated: 2025/11/28 13:10:13 by mpiasecz         ###   ########.fr       */
+/*   Updated: 2026/03/23 22:34:57 by mpiasecz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ int	create_threads(t_table *table, t_philo *philos)
 
 	table->ready = 0;
 	table->last_printed_timestamp = -1;
-	i = 0;
-	while (i < table->num_philos)
+	i = -1;
+	while (++i < table->num_philos)
 	{
 		if (pthread_create(&philos[i].thread, NULL, &philosopher_routine,
 				&philos[i]) != 0)
@@ -62,15 +62,13 @@ int	create_threads(t_table *table, t_philo *philos)
 			abort_threads(table, philos, i);
 			return (-1);
 		}
-		i++;
 	}
 	pthread_mutex_lock(&table->death_lock);
 	table->start_time = get_time();
-	i = 0;
-	while (i < table->num_philos)
+	i = -1;
+	while (++i < table->num_philos)
 	{
 		philos[i].last_meal_time = table->start_time;
-		i++;
 	}
 	table->ready = 1;
 	pthread_mutex_unlock(&table->death_lock);
