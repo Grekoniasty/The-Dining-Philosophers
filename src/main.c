@@ -33,7 +33,7 @@ static int	init_all(t_table *table, t_philo **philos, char **av, int ac)
 	}
 	if (table->time_to_die == 0)
 	{
-		write(1, "0 1 died\n", 9);
+		write(2, "Yeah let the philosophers die immediately, good idea\n", 50);
 		return (cleanup(table, *philos), 1);
 	}
 	if (create_threads(table, *philos) == -1)
